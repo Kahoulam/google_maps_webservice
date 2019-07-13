@@ -136,6 +136,7 @@ class GoogleMapsPlaces extends GoogleWebService {
     String sessionToken,
     num offset,
     Location location,
+    Location origin,
     num radius,
     String language,
     List<String> types,
@@ -146,6 +147,7 @@ class GoogleMapsPlaces extends GoogleWebService {
       sessionToken: sessionToken,
       input: input,
       location: location,
+      origin: origin,
       offset: offset,
       radius: radius,
       language: language,
@@ -282,6 +284,7 @@ class GoogleMapsPlaces extends GoogleWebService {
     String sessionToken,
     num offset,
     Location location,
+    Location origin,
     num radius,
     String language,
     List<String> types,
@@ -292,6 +295,7 @@ class GoogleMapsPlaces extends GoogleWebService {
       'input': input != null ? Uri.encodeComponent(input) : null,
       'language': language,
       'location': location,
+      'origin': origin,
       'radius': radius,
       'types': types,
       'components': components,
@@ -791,6 +795,7 @@ class PlacesAutocompleteResponse extends GoogleResponseStatus {
 
 class Prediction {
   final String description;
+  final int distanceMeters;
   final String id;
   final List<Term> terms;
 
@@ -806,6 +811,7 @@ class Prediction {
 
   Prediction(
       this.description,
+      this.distanceMeters,
       this.id,
       this.terms,
       this.placeId,
@@ -817,6 +823,7 @@ class Prediction {
   factory Prediction.fromJson(Map json) => json != null
       ? Prediction(
           json['description'],
+          json['distance_meters'],
           json['id'],
           json['terms']?.map((t) => Term.fromJson(t))?.toList()?.cast<Term>(),
           json['place_id'],
